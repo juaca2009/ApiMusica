@@ -6,4 +6,4 @@ iniciar_entorno(){
 	cd ../../../Documentos/proyectos/"Trabajo de Grado"/ApiMusica
 }
 
-iniciar_entorn
+iniciar_entorno
