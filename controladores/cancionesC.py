@@ -1,6 +1,7 @@
 from app import app
 from apiConfig import api
 from servicios import servicioCanciones
+from modelos.modAgregarCancion import modAgregarCancion
 from flask import Flask, render_template, request, redirect, session, g, url_for, flash, Blueprint
 from flask_restx import Resource
 
@@ -18,11 +19,12 @@ class obtenerAtributosMusicales(Resource):
             return cancion, 200
         else:
             return {"ERROR": 'La cancion no existe'}, 204
-
+    
 
 @api.route('/agregarCancion')
 class agregarAtributosMusicales(Resource):
     @api.response(201, 'Created')
+    @api.expect(modAgregarCancion)
     def post(self):
         cancion = api.payload
         servicioCanciones.agregarCancion(cancion)
