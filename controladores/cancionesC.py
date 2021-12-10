@@ -9,12 +9,21 @@ vistaCanciones = Blueprint('vistaCanciones', __name__)
 
 
 @api.route('/obtenerCancion/<_nombre>')
-class atributosMusicales(Resource):
+class obtenerAtributosMusicales(Resource):
     @api.response(200, 'Success')
-    @api.response(204, 'NO CONTENT')
+    @api.response(204, 'No content')
     def get(self, _nombre):
         cancion = servicioCanciones.obtenerCancion(_nombre)
         if cancion != 0:
             return cancion, 200
         else:
             return {"ERROR": 'La cancion no existe'}, 204
+
+
+@api.route('/agregarCancion')
+class agregarAtributosMusicales(Resource):
+    @api.response(201, 'Created')
+    def post(self):
+        cancion = api.payload
+        servicioCanciones.agregarCancion(cancion)
+        return {"Success": "Cancion agegada"}, 201

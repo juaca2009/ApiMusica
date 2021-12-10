@@ -11,5 +11,4 @@ class CancionesRepositorio:
         self.__baseDatos.atributos.insert_one(_atributosDict)
 
     def obtenerCancion(self, _nombre):
-        datosL = list(self.__baseDatos.atributos.find({'nombre': _nombre}))
-        return json.dumps(datosL, default=json_util.default)
+        return self.__baseDatos.atributos.find_one({'nombre': _nombre})
