@@ -29,7 +29,7 @@ class obtenerAtributosMusicales(Resource):
 class agregarAtributosMusicales(Resource):
     @api.response(201, 'Created')
     @api.response(500, 'BD problem')
-    @api.expect(modAgregarCancion)
+    @api.expect(modAgregarCancion, validate=True)
     def post(self):
         cancion = api.payload
         if servicioCanciones.agregarCancion(cancion) == "OK":
