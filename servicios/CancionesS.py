@@ -1,13 +1,18 @@
 from repositorios.CancionesR import CancionesRepositorio
+from servicios.validador import validador
 
 class cancionesServicio:
     def __init__(self):
         self.__cancionesRepo = CancionesRepositorio()
+        self.__valData = validador()
 
     def agregarCancion(self, _dictCancion):
         try:
-            self.__cancionesRepo.agregarCancion(_dictCancion)
-            return "OK"
+            if self.__valData.validar(_dictCancion):
+                self.__cancionesRepo.agregarCancion(_dictCancion)
+                return "OK"
+            else:
+                return "SCHEMA ERROR"
         except:
             return "ERROR"
 

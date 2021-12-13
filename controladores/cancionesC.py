@@ -29,10 +29,14 @@ class obtenerAtributosMusicales(Resource):
 class agregarAtributosMusicales(Resource):
     @api.response(201, 'Created')
     @api.response(500, 'BD problem')
+    @api.response(400, 'Bad request')
     @api.expect(modAgregarCancion, validate=True)
     def post(self):
         cancion = api.payload
-        if servicioCanciones.agregarCancion(cancion) == "OK":
+        salida = servicioCanciones.agregarCancion(cancion)
+        if salida == "OK":
             return {"Success": "Cancion agegada"}, 201
+        elif salida == "SCHEMA ERROR":
+            return {"ERROR": "Formato erroneo"}, 400
         else:
             return {"ERROR": "Problema al conectarse a la base de datos"}, 500
