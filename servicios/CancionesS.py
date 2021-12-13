@@ -9,8 +9,8 @@ class cancionesServicio:
 
     def obtenerCancion(self, _nombre):
         datos = self.__cancionesRepo.obtenerCancion(_nombre)
-        del datos['_id']
         if datos != None:
+            del datos['_id']
             return datos
         else:
             return 0
