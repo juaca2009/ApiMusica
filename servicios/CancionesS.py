@@ -26,3 +26,12 @@ class cancionesServicio:
                 return "NO DATA"
         except:
             return "ERROR"
+
+    def eliminarCancion(self, _nombre):
+        try:
+            if self.__cancionesRepo.eliminarCancion(_nombre) is not None:
+                return "OK"
+            else:
+                return "NO DATA"
+        except:
+            return "ERROR"

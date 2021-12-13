@@ -40,3 +40,17 @@ class agregarAtributosMusicales(Resource):
             return {"ERROR": "Formato erroneo"}, 400
         else:
             return {"ERROR": "Problema al conectarse a la base de datos"}, 500
+
+@api.route('/eliminarCancion/<_nombre>')
+class eliminarCancion(Resource):
+    @api.response(200, 'Success')
+    @api.response(204, 'No content')
+    @api.response(500, 'BD problem')
+    def delete(self, _nombre):
+        salida = servicioCanciones.eliminarCancion(_nombre)
+        if salida == "OK":
+            return {"Success": "Cancion eliminada"}, 200
+        elif salida == "NO DATA":
+            return {"ERROR": 'La cancion no existe'}, 204
+        else:
+            return {"ERROR": "Problema al conectarse a la base de datos"}, 500

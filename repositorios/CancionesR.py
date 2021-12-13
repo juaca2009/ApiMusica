@@ -12,3 +12,6 @@ class CancionesRepositorio:
 
     def obtenerCancion(self, _nombre):
         return self.__baseDatos.atributos.find_one({'nombre': _nombre})
+
+    def eliminarCancion(self, _nombre):
+        return self.__baseDatos.atributos.find_one_and_delete({'nombre': _nombre})
