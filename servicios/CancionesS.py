@@ -5,12 +5,19 @@ class cancionesServicio:
         self.__cancionesRepo = CancionesRepositorio()
 
     def agregarCancion(self, _dictCancion):
-        self.__cancionesRepo.agregarCancion(_dictCancion)
+        try:
+            self.__cancionesRepo.agregarCancion(_dictCancion)
+            return "OK"
+        except:
+            return "ERROR"
 
     def obtenerCancion(self, _nombre):
-        datos = self.__cancionesRepo.obtenerCancion(_nombre)
-        if datos != None:
-            del datos['_id']
-            return datos
-        else:
-            return 0
+        try:
+            datos = self.__cancionesRepo.obtenerCancion(_nombre)
+            if datos != None:
+                del datos['_id']
+                return datos
+            else:
+                return "NO DATA"
+        except:
+            return "ERROR"
