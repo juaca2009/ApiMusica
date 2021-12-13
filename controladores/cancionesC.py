@@ -53,4 +53,4 @@ class eliminarCancion(Resource):
         elif salida == "NO DATA":
             return {"ERROR": 'La cancion no existe'}, 204
         else:
-            return {"ERROR": "Problema al conectarse a la base de datos"}, 500
+            return {"ERROR": "Problema al conectarse a la base de datos"}, 500 
