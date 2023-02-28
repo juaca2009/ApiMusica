@@ -1,24 +1,23 @@
-from app import app
 from apiConfig import api
-from servicios import servicioCanciones
-from modelos.modAgregarCancion import modAgregarCancion
-from flask import Flask, render_template, request, redirect, session, g, url_for, flash, Blueprint
+from services import SongsCrudService
+from models.SaveSongModel import saveSongModel
+from flask import Blueprint
 from flask_restx import Resource
 
 
-vistaCanciones = Blueprint('vistaCanciones', __name__)
+songCrudView = Blueprint('songCrudView', __name__)
 
 
-@api.route('/obtenerCancion/<_nombre>')
-class obtenerAtributosMusicales(Resource):
+@api.route('/obtenerCancion/<name>')
+class GetSongInfo(Resource):
     @api.response(200, 'Success')
     @api.response(204, 'No content')
     @api.response(500, 'BD problem')
-    def get(self, _nombre):
-        cancion = servicioCanciones.obtenerCancion(_nombre)
-        if cancion != "ERROR":
-            if cancion != "NO DATA":
-                return cancion, 200
+    def get(self, name):
+        song = SongsCrudService.get_song(name)
+        if song != "ERROR":
+            if song != "NO DATA":
+                return song, 200
             else:
                 return {"ERROR": 'La cancion no existe'}, 204
         else:
@@ -26,31 +25,31 @@ class obtenerAtributosMusicales(Resource):
     
 
 @api.route('/agregarCancion')
-class agregarAtributosMusicales(Resource):
+class SaveSongInfo(Resource):
     @api.response(201, 'Created')
     @api.response(500, 'BD problem')
     @api.response(400, 'Bad request')
-    @api.expect(modAgregarCancion, validate=True)
+    @api.expect(saveSongModel, validate=True)
     def post(self):
-        cancion = api.payload
-        salida = servicioCanciones.agregarCancion(cancion)
-        if salida == "OK":
+        song = api.payload
+        response = SongsCrudService.save_song(song)
+        if response == "OK":
             return {"Success": "Cancion agegada"}, 201
-        elif salida == "SCHEMA ERROR":
+        elif response == "SCHEMA ERROR":
             return {"ERROR": "Formato erroneo"}, 400
         else:
             return {"ERROR": "Problema al conectarse a la base de datos"}, 500
 
-@api.route('/eliminarCancion/<_nombre>')
-class eliminarCancion(Resource):
+@api.route('/eliminarCancion/<name>')
+class DeleteSong(Resource):
     @api.response(200, 'Success')
     @api.response(204, 'No content')
     @api.response(500, 'BD problem')
-    def delete(self, _nombre):
-        salida = servicioCanciones.eliminarCancion(_nombre)
-        if salida == "OK":
+    def delete(self, name):
+        response = SongsCrudService.delete_song(name)
+        if response == "OK":
             return {"Success": "Cancion eliminada"}, 200
-        elif salida == "NO DATA":
+        elif response == "NO DATA":
             return {"ERROR": 'La cancion no existe'}, 204
         else:
             return {"ERROR": "Problema al conectarse a la base de datos"}, 500 

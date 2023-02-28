@@ -1,6 +1,6 @@
 from schema import Schema, And
 
-class validador:
+class Validator:
     def __init__(self):
         self.__schema = Schema({
             'nombre': str,
@@ -16,6 +16,6 @@ class validador:
             'genero': str
         })
 
-    def validar(self, _dictEntrada):
-        return self.__schema.is_valid(_dictEntrada)
+    def validate(self, income_data):
+        return self.__schema.is_valid(income_data)
        
